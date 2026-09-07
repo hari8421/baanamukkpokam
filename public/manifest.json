@@ -1,0 +1,39 @@
+{
+  "name": "Anavandi Travels",
+  "short_name": "Anavandi",
+  "description": "Experience Kerala through KSRTC Anavandi bus windows. Share and relive journeys.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFF8DC",
+  "theme_color": "#C41E3A",
+  "orientation": "any",
+  "scope": "/",
+  "lang": "en",
+  "categories": ["travel", "lifestyle", "social"],
+  "icons": [
+    {
+      "src": "/bus-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/bus-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Explore Journeys",
+      "url": "/",
+      "icons": [{ "src": "/bus-icon.svg", "sizes": "any" }]
+    },
+    {
+      "name": "Post Journey",
+      "url": "/",
+      "icons": [{ "src": "/bus-icon.svg", "sizes": "any" }]
+    }
+  ]
+}
