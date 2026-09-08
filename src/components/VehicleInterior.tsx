@@ -164,7 +164,7 @@ export function VehicleInterior({ vehicleType, children, className = "", isFulls
       {/* Window area */}
       <div className="absolute z-10 left-0 right-0" style={{ top: config.windowStyle === "bus" ? "2rem" : config.windowStyle === "open" ? "3.5rem" : config.windowStyle === "windshield" ? "1.5rem" : "2.5rem", bottom: config.windowStyle === "bus" ? "4rem" : config.windowStyle === "open" ? "2rem" : config.windowStyle === "windshield" ? "3.5rem" : "4rem" }}>
         {/* Window frame overlay */}
-        <div className="absolute inset-0 z-15 pointer-events-none">
+        <div className="absolute inset-0 z-[15] pointer-events-none">
           {config.windowStyle !== "open" && (
             <>
               <div className="absolute left-1/2 top-0 bottom-0 w-1.5" style={{ background: `${config.frameAccent}CC` }} />

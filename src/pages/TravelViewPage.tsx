@@ -214,7 +214,7 @@ export function TravelViewPage() {
               {/* Photo */}
               <AnimatePresence mode="wait">
                 <motion.div key={currentPhoto} initial={{ opacity: 0, scale: 1.1 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} transition={{ duration: 0.6 }}
-                  className="absolute z-5 left-3 top-3 bottom-6 rounded-sm overflow-hidden" style={{ right: vehicleType === "ksrtc-bus" ? "calc(50%+3px)" : "3" }}>
+                  className="absolute z-[5] left-3 top-3 bottom-6 rounded-sm overflow-hidden" style={{ right: vehicleType === "ksrtc-bus" ? "calc(50%+3px)" : "3px" }}>
                   <div className="absolute inset-0" style={{ background: travel.photos[currentPhoto].gradient }} />
                   <div className="absolute inset-0 flex flex-col items-center justify-center">
                     <Camera className="w-16 h-16 text-white/20 mb-4" />

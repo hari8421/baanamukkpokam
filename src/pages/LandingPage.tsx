@@ -58,6 +58,55 @@ function KeralaScenery() {
         <div className="absolute inset-2 rounded-full bg-gradient-to-br from-yellow-100 to-orange-200 opacity-60" />
       </motion.div>
 
+      {/* Drifting golden clouds — evening Kerala sky */}
+      {[
+        { top: "11%", duration: 55, delay: 0, scale: 1.3, opacity: 0.45 },
+        { top: "19%", duration: 72, delay: 12, scale: 0.9, opacity: 0.4 },
+        { top: "6%", duration: 62, delay: 26, scale: 1.6, opacity: 0.35 },
+        { top: "23%", duration: 80, delay: 40, scale: 1.1, opacity: 0.3 },
+      ].map((c, i) => (
+        <div
+          key={i}
+          className="absolute cloud-drift"
+          style={{
+            top: c.top,
+            left: "-25%",
+            animationDuration: `${c.duration}s`,
+            animationDelay: `${c.delay}s`,
+            opacity: c.opacity,
+          }}
+        >
+          <div style={{ transform: `scale(${c.scale})`, transformOrigin: "left center" }}>
+            <div className="relative w-44 h-12">
+              <div className="absolute left-0 bottom-0 w-24 h-8 rounded-full bg-gradient-to-r from-orange-200/70 via-amber-100/80 to-yellow-100/70 blur-[1px]" />
+              <div className="absolute left-14 -top-3 w-16 h-10 rounded-full bg-gradient-to-b from-amber-100/80 to-orange-100/60 blur-[1px]" />
+              <div className="absolute left-28 bottom-0 w-16 h-7 rounded-full bg-gradient-to-r from-yellow-100/70 to-orange-100/50 blur-[1px]" />
+            </div>
+          </div>
+        </div>
+      ))}
+
+      {/* Flying birds crossing the sky */}
+      {[
+        { top: "15%", duration: 28, delay: 4 },
+        { top: "21%", duration: 34, delay: 16 },
+        { top: "10%", duration: 26, delay: 30 },
+      ].map((b, i) => (
+        <motion.div
+          key={i}
+          className="absolute"
+          style={{ top: b.top, left: "-6%", opacity: 0.3 }}
+          animate={{ x: ["0vw", "112vw"] }}
+          transition={{ duration: b.duration, repeat: Infinity, ease: "linear", delay: b.delay }}
+        >
+          <div className="bird-flap">
+            <svg width="20" height="9" viewBox="0 0 20 9">
+              <path d="M1,7 Q5,1 10,4.5 Q15,1 19,7" fill="none" stroke="#2F1B14" strokeWidth="1.3" strokeLinecap="round" />
+            </svg>
+          </div>
+        </motion.div>
+      ))}
+
       {/* Distant mountains — layer 1 */}
       <svg
         className="absolute bottom-[42%] w-[6000px] opacity-20"
@@ -257,22 +306,27 @@ function VehicleLanes() {
       {/* Lane 1: Train — behind road, topmost, very faded */}
       <motion.div
         className="absolute left-0"
-        style={{ bottom: "26vh", opacity: 0.2 }}  
+        style={{ bottom: "26vh", opacity: 0.2 }}
         animate={{ x: ["calc(105vw)", "calc(-35vw)"] }}
         transition={{ duration: 55, repeat: Infinity, ease: "linear", delay: 3 }}
       >
-        <svg width="160" height="24" viewBox="0 0 280 45" className="drop-shadow-sm">
-          <rect x="0" y="8" width="60" height="30" rx="4" fill="#E65100" />
-          <rect x="5" y="12" width="15" height="10" rx="2" fill="#B8D4E3" opacity="0.7" />
-          <rect x="60" y="14" width="210" height="24" rx="3" fill="#BF360C" />
-          {Array.from({ length: 14 }).map((_, i) => (
-            <rect key={i} x={68 + i * 14} y="18" width="10" height="8" rx="2" fill="#B8D4E3" opacity="0.6" />
-          ))}
-          <rect x="0" y="30" width="270" height="3" fill="#FFD600" />
-          {[25, 55, 100, 140, 180, 220, 260].map((x) => (
-            <circle key={x} cx={x} cy="40" r="4" fill="#333" />
-          ))}
-        </svg>
+        <div className="vehicle-bob" style={{ animationDuration: "1.6s" }}>
+          <svg width="160" height="24" viewBox="0 0 280 45" className="drop-shadow-sm" style={{ display: "block" }}>
+            <rect x="0" y="8" width="60" height="30" rx="4" fill="#E65100" />
+            <rect x="5" y="12" width="15" height="10" rx="2" fill="#B8D4E3" opacity="0.7" />
+            <rect x="60" y="14" width="210" height="24" rx="3" fill="#BF360C" />
+            {Array.from({ length: 14 }).map((_, i) => (
+              <rect key={i} x={68 + i * 14} y="18" width="10" height="8" rx="2" fill="#B8D4E3" opacity="0.6" />
+            ))}
+            <rect x="0" y="30" width="270" height="3" fill="#FFD600" />
+            {[25, 55, 100, 140, 180, 220, 260].map((x) => (
+              <g key={x} className="wheel-spin" style={{ animationDuration: "0.45s" }}>
+                <circle cx={x} cy="40" r="4" fill="#333" />
+                <line x1={x} y1="36.5" x2={x} y2="39" stroke="#9E9E9E" strokeWidth="1" />
+              </g>
+            ))}
+          </svg>
+        </div>
       </motion.div>
 
       {/* Lane 2: KSRTC Bus — far lane, L→R */}
@@ -282,21 +336,31 @@ function VehicleLanes() {
         animate={{ x: ["calc(-18vw)", "calc(118vw)"] }}
         transition={{ duration: 30, repeat: Infinity, ease: "linear", delay: 0 }}
       >
-        <svg width="110" height="44" viewBox="0 0 180 75" style={{ display: "block" }}>
-          <ellipse cx="90" cy="73" rx="80" ry="3" fill="rgba(0,0,0,0.1)" />
-          <rect x="8" y="10" width="164" height="42" rx="6" fill="#C41E3A" />
-          <rect x="12" y="6" width="156" height="7" rx="3" fill="#8B0000" />
-          {[20, 48, 76, 104, 132].map((x) => (
-            <rect key={x} x={x} y="16" width="20" height="14" rx="3" fill="#B8D4E3" opacity="0.8" />
-          ))}
-          <rect x="8" y="38" width="164" height="14" fill="#8B4513" />
-          <rect x="50" y="40" width="80" height="10" rx="3" fill="#F5E6C8" />
-          <text x="90" y="48" textAnchor="middle" fill="#C41E3A" fontSize="6" fontWeight="bold" fontFamily="sans-serif">KSRTC</text>
-          <circle cx="12" cy="42" r="3.5" fill="#DAA520" />
-          <circle cx="168" cy="42" r="2.5" fill="#FF4444" />
-          <circle cx="42" cy="60" r="9" fill="#333" /><circle cx="42" cy="60" r="4.5" fill="#666" />
-          <circle cx="138" cy="60" r="9" fill="#333" /><circle cx="138" cy="60" r="4.5" fill="#666" />
-        </svg>
+        <div className="vehicle-bob" style={{ animationDuration: "1.4s" }}>
+          <svg width="110" height="44" viewBox="0 0 180 75" style={{ display: "block" }}>
+            <ellipse cx="90" cy="73" rx="80" ry="3" fill="rgba(0,0,0,0.1)" />
+            <rect x="8" y="10" width="164" height="42" rx="6" fill="#C41E3A" />
+            <rect x="12" y="6" width="156" height="7" rx="3" fill="#8B0000" />
+            {[20, 48, 76, 104, 132].map((x) => (
+              <rect key={x} x={x} y="16" width="20" height="14" rx="3" fill="#B8D4E3" opacity="0.8" />
+            ))}
+            <rect x="8" y="38" width="164" height="14" fill="#8B4513" />
+            <rect x="50" y="40" width="80" height="10" rx="3" fill="#F5E6C8" />
+            <text x="90" y="48" textAnchor="middle" fill="#C41E3A" fontSize="6" fontWeight="bold" fontFamily="sans-serif">KSRTC</text>
+            <circle cx="12" cy="42" r="3.5" fill="#DAA520" />
+            <circle cx="168" cy="42" r="2.5" fill="#FF4444" />
+            <g className="wheel-spin" style={{ animationDuration: "0.7s" }}>
+              <circle cx="42" cy="60" r="9" fill="#333" />
+              <circle cx="42" cy="60" r="4.5" fill="#666" />
+              <line x1="42" y1="52" x2="42" y2="58" stroke="#9E9E9E" strokeWidth="1.5" />
+            </g>
+            <g className="wheel-spin" style={{ animationDuration: "0.7s" }}>
+              <circle cx="138" cy="60" r="9" fill="#333" />
+              <circle cx="138" cy="60" r="4.5" fill="#666" />
+              <line x1="138" y1="52" x2="138" y2="58" stroke="#9E9E9E" strokeWidth="1.5" />
+            </g>
+          </svg>
+        </div>
       </motion.div>
 
       {/* Lane 3: Royal Enfield — far inner, R→L */}
@@ -306,19 +370,29 @@ function VehicleLanes() {
         animate={{ x: ["calc(108vw)", "calc(-14vw)"] }}
         transition={{ duration: 18, repeat: Infinity, ease: "linear", delay: 5 }}
       >
-        <svg width="48" height="32" viewBox="0 0 80 52" style={{ display: "block" }}>
-          <ellipse cx="40" cy="50" rx="35" ry="2" fill="rgba(0,0,0,0.08)" />
-          <ellipse cx="35" cy="26" rx="15" ry="9" fill="#1A1A1A" />
-          <ellipse cx="35" cy="24" rx="11" ry="6" fill="#2A1A0A" />
-          <rect x="18" y="18" width="18" height="5" rx="2.5" fill="#8B4513" />
-          <rect x="52" y="8" width="3" height="18" rx="1" fill="#666" />
-          <rect x="47" y="6" width="13" height="2.5" rx="1.25" fill="#888" />
-          <circle cx="57" cy="12" r="3.5" fill="#B8860B" opacity="0.8" />
-          <rect x="8" y="30" width="16" height="3" rx="1.5" fill="#555" />
-          <rect x="28" y="30" width="10" height="7" rx="2" fill="#444" />
-          <circle cx="18" cy="42" r="8" fill="#333" /><circle cx="18" cy="42" r="4.5" fill="#555" />
-          <circle cx="58" cy="42" r="8" fill="#333" /><circle cx="58" cy="42" r="4.5" fill="#555" />
-        </svg>
+        <div className="vehicle-bob" style={{ animationDuration: "1s" }}>
+          <svg width="48" height="32" viewBox="0 0 80 52" style={{ display: "block" }}>
+            <ellipse cx="40" cy="50" rx="35" ry="2" fill="rgba(0,0,0,0.08)" />
+            <ellipse cx="35" cy="26" rx="15" ry="9" fill="#1A1A1A" />
+            <ellipse cx="35" cy="24" rx="11" ry="6" fill="#2A1A0A" />
+            <rect x="18" y="18" width="18" height="5" rx="2.5" fill="#8B4513" />
+            <rect x="52" y="8" width="3" height="18" rx="1" fill="#666" />
+            <rect x="47" y="6" width="13" height="2.5" rx="1.25" fill="#888" />
+            <circle cx="57" cy="12" r="3.5" fill="#B8860B" opacity="0.8" />
+            <rect x="8" y="30" width="16" height="3" rx="1.5" fill="#555" />
+            <rect x="28" y="30" width="10" height="7" rx="2" fill="#444" />
+            <g className="wheel-spin" style={{ animationDuration: "0.45s" }}>
+              <circle cx="18" cy="42" r="8" fill="#333" />
+              <circle cx="18" cy="42" r="4.5" fill="#555" />
+              <line x1="18" y1="34.5" x2="18" y2="39.5" stroke="#9E9E9E" strokeWidth="1.5" />
+            </g>
+            <g className="wheel-spin" style={{ animationDuration: "0.45s" }}>
+              <circle cx="58" cy="42" r="8" fill="#333" />
+              <circle cx="58" cy="42" r="4.5" fill="#555" />
+              <line x1="58" y1="34.5" x2="58" y2="39.5" stroke="#9E9E9E" strokeWidth="1.5" />
+            </g>
+          </svg>
+        </div>
       </motion.div>
 
       {/* Lane 4: Scooter — near inner, L→R (zippy) */}
@@ -328,17 +402,27 @@ function VehicleLanes() {
         animate={{ x: ["calc(-12vw)", "calc(112vw)"] }}
         transition={{ duration: 11, repeat: Infinity, ease: "linear", delay: 8 }}
       >
-        <svg width="40" height="28" viewBox="0 0 68 48" style={{ display: "block" }}>
-          <ellipse cx="34" cy="46" rx="26" ry="2" fill="rgba(0,0,0,0.08)" />
-          <ellipse cx="34" cy="28" rx="16" ry="10" fill="#FF6B35" />
-          <rect x="20" y="20" width="28" height="5" rx="2.5" fill="#333" />
-          <rect x="48" y="13" width="3" height="16" rx="1" fill="#666" />
-          <rect x="43" y="10" width="13" height="3" rx="1.5" fill="#888" />
-          <circle cx="53" cy="16" r="3" fill="#FFD700" opacity="0.8" />
-          <circle cx="18" cy="38" r="7" fill="#333" /><circle cx="18" cy="38" r="3.5" fill="#555" />
-          <circle cx="52" cy="38" r="7" fill="#333" /><circle cx="52" cy="38" r="3.5" fill="#555" />
-          <rect x="8" y="33" width="11" height="3" rx="1.5" fill="#555" />
-        </svg>
+        <div className="vehicle-bob" style={{ animationDuration: "0.85s" }}>
+          <svg width="40" height="28" viewBox="0 0 68 48" style={{ display: "block" }}>
+            <ellipse cx="34" cy="46" rx="26" ry="2" fill="rgba(0,0,0,0.08)" />
+            <ellipse cx="34" cy="28" rx="16" ry="10" fill="#FF6B35" />
+            <rect x="20" y="20" width="28" height="5" rx="2.5" fill="#333" />
+            <rect x="48" y="13" width="3" height="16" rx="1" fill="#666" />
+            <rect x="43" y="10" width="13" height="3" rx="1.5" fill="#888" />
+            <circle cx="53" cy="16" r="3" fill="#FFD700" opacity="0.8" />
+            <g className="wheel-spin" style={{ animationDuration: "0.35s" }}>
+              <circle cx="18" cy="38" r="7" fill="#333" />
+              <circle cx="18" cy="38" r="3.5" fill="#555" />
+              <line x1="18" y1="31.5" x2="18" y2="36" stroke="#9E9E9E" strokeWidth="1.5" />
+            </g>
+            <g className="wheel-spin" style={{ animationDuration: "0.35s" }}>
+              <circle cx="52" cy="38" r="7" fill="#333" />
+              <circle cx="52" cy="38" r="3.5" fill="#555" />
+              <line x1="52" y1="31.5" x2="52" y2="36" stroke="#9E9E9E" strokeWidth="1.5" />
+            </g>
+            <rect x="8" y="33" width="11" height="3" rx="1.5" fill="#555" />
+          </svg>
+        </div>
       </motion.div>
 
       {/* Lane 5: Car — near outer, R→L */}
@@ -348,38 +432,58 @@ function VehicleLanes() {
         animate={{ x: ["calc(108vw)", "calc(-16vw)"] }}
         transition={{ duration: 24, repeat: Infinity, ease: "linear", delay: 2 }}
       >
-        <svg width="64" height="30" viewBox="0 0 105 48" style={{ display: "block" }}>
-          <ellipse cx="52" cy="46" rx="46" ry="2" fill="rgba(0,0,0,0.1)" />
-          <rect x="5" y="20" width="95" height="17" rx="4" fill="#37474F" />
-          <path d="M24,20 L33,7 L72,7 L81,20 Z" fill="#455A64" />
-          <path d="M28,19 L36,10 L52,10 L52,19 Z" fill="#B8D4E3" opacity="0.7" />
-          <path d="M55,19 L55,10 L69,10 L77,19 Z" fill="#B8D4E3" opacity="0.7" />
-          <rect x="95" y="24" width="5" height="4" rx="1" fill="#FFD700" opacity="0.8" />
-          <rect x="4" y="24" width="5" height="4" rx="1" fill="#FF4444" opacity="0.8" />
-          <circle cx="27" cy="40" r="7" fill="#333" /><circle cx="27" cy="40" r="3.5" fill="#666" />
-          <circle cx="78" cy="40" r="7" fill="#333" /><circle cx="78" cy="40" r="3.5" fill="#666" />
-        </svg>
+        <div className="vehicle-bob" style={{ animationDuration: "1.2s" }}>
+          <svg width="64" height="30" viewBox="0 0 105 48" style={{ display: "block" }}>
+            <ellipse cx="52" cy="46" rx="46" ry="2" fill="rgba(0,0,0,0.1)" />
+            <rect x="5" y="20" width="95" height="17" rx="4" fill="#37474F" />
+            <path d="M24,20 L33,7 L72,7 L81,20 Z" fill="#455A64" />
+            <path d="M28,19 L36,10 L52,10 L52,19 Z" fill="#B8D4E3" opacity="0.7" />
+            <path d="M55,19 L55,10 L69,10 L77,19 Z" fill="#B8D4E3" opacity="0.7" />
+            <rect x="95" y="24" width="5" height="4" rx="1" fill="#FFD700" opacity="0.8" />
+            <rect x="4" y="24" width="5" height="4" rx="1" fill="#FF4444" opacity="0.8" />
+            <g className="wheel-spin" style={{ animationDuration: "0.55s" }}>
+              <circle cx="27" cy="40" r="7" fill="#333" />
+              <circle cx="27" cy="40" r="3.5" fill="#666" />
+              <line x1="27" y1="33.5" x2="27" y2="38" stroke="#9E9E9E" strokeWidth="1.5" />
+            </g>
+            <g className="wheel-spin" style={{ animationDuration: "0.55s" }}>
+              <circle cx="78" cy="40" r="7" fill="#333" />
+              <circle cx="78" cy="40" r="3.5" fill="#666" />
+              <line x1="78" y1="33.5" x2="78" y2="38" stroke="#9E9E9E" strokeWidth="1.5" />
+            </g>
+          </svg>
+        </div>
       </motion.div>
 
       {/* Lane 6: Auto — closest to viewer, R→L */}
       <motion.div
         className="absolute left-0"
-        style={{ bottom: "-3vh" }}  
+        style={{ bottom: "-3vh" }}
         animate={{ x: ["calc(105vw)", "calc(-14vw)"] }}
         transition={{ duration: 20, repeat: Infinity, ease: "linear", delay: 12 }}
       >
-        <svg width="52" height="34" viewBox="0 0 88 58" style={{ display: "block" }}>
-          <ellipse cx="44" cy="56" rx="36" ry="2" fill="rgba(0,0,0,0.1)" />
-          <path d="M14,33 L19,14 L68,14 L78,33 Z" fill="#1B5E20" />
-          <rect x="10" y="28" width="72" height="18" rx="4" fill="#2E7D32" />
-          <path d="M17,14 L24,5 L63,5 L70,14 Z" fill="#333" />
-          <rect x="24" y="17" width="38" height="10" rx="2" fill="#B8D4E3" opacity="0.7" />
-          <rect x="58" y="33" width="18" height="11" rx="2" fill="#1B5E20" />
-          <text x="67" y="41" textAnchor="middle" fill="#FFD600" fontSize="5" fontWeight="bold" fontFamily="sans-serif">₹20</text>
-          <circle cx="26" cy="52" r="7" fill="#333" /><circle cx="26" cy="52" r="3.5" fill="#666" />
-          <circle cx="66" cy="52" r="7" fill="#333" /><circle cx="66" cy="52" r="3.5" fill="#666" />
-          <rect x="10" y="31" width="72" height="2" fill="#FFD600" />
-        </svg>
+        <div className="vehicle-bob" style={{ animationDuration: "1.05s" }}>
+          <svg width="52" height="34" viewBox="0 0 88 58" style={{ display: "block" }}>
+            <ellipse cx="44" cy="56" rx="36" ry="2" fill="rgba(0,0,0,0.1)" />
+            <path d="M14,33 L19,14 L68,14 L78,33 Z" fill="#1B5E20" />
+            <rect x="10" y="28" width="72" height="18" rx="4" fill="#2E7D32" />
+            <path d="M17,14 L24,5 L63,5 L70,14 Z" fill="#333" />
+            <rect x="24" y="17" width="38" height="10" rx="2" fill="#B8D4E3" opacity="0.7" />
+            <rect x="58" y="33" width="18" height="11" rx="2" fill="#1B5E20" />
+            <text x="67" y="41" textAnchor="middle" fill="#FFD600" fontSize="5" fontWeight="bold" fontFamily="sans-serif">₹20</text>
+            <g className="wheel-spin" style={{ animationDuration: "0.5s" }}>
+              <circle cx="26" cy="52" r="7" fill="#333" />
+              <circle cx="26" cy="52" r="3.5" fill="#666" />
+              <line x1="26" y1="45.5" x2="26" y2="50" stroke="#9E9E9E" strokeWidth="1.5" />
+            </g>
+            <g className="wheel-spin" style={{ animationDuration: "0.5s" }}>
+              <circle cx="66" cy="52" r="7" fill="#333" />
+              <circle cx="66" cy="52" r="3.5" fill="#666" />
+              <line x1="66" y1="45.5" x2="66" y2="50" stroke="#9E9E9E" strokeWidth="1.5" />
+            </g>
+            <rect x="10" y="31" width="72" height="2" fill="#FFD600" />
+          </svg>
+        </div>
       </motion.div>
     </div>
   );
@@ -564,7 +668,7 @@ export function LandingPage() {
           >
             <span className="text-vintage-ink">Travel Kerala,</span>
             <br />
-            <span className="bg-gradient-to-r from-ksrtc-red via-ksrtc-red-dark to-ksrtc-brown bg-clip-text text-transparent">
+            <span className="shimmer-text bg-gradient-to-r from-ksrtc-red via-ksrtc-gold to-ksrtc-brown bg-clip-text text-transparent">
               One Window at a Time
             </span>
           </motion.h1>
@@ -601,7 +705,7 @@ export function LandingPage() {
               whileHover={{ scale: 1.05, y: -3 }}
               whileTap={{ scale: 0.98 }}
               onClick={() => navigate("auth")}
-              className="px-8 py-4 bg-ksrtc-red text-white rounded-2xl font-bold text-lg shadow-xl shadow-ksrtc-red/25 hover:bg-ksrtc-red-dark transition-colors flex items-center gap-3"
+              className="cta-glow px-8 py-4 bg-ksrtc-red text-white rounded-2xl font-bold text-lg shadow-xl shadow-ksrtc-red/25 hover:bg-ksrtc-red-dark transition-colors flex items-center gap-3"
             >
               <Camera className="w-5 h-5" />
               Start Your Journey
@@ -649,6 +753,26 @@ export function LandingPage() {
           <ChevronDown className="w-8 h-8 text-vintage-sepia/40" />
         </motion.div>
       </section>
+
+      {/* ═══════════════ DESTINATION TICKER — KSRTC destination board ═══════════════ */}
+      <div className="relative z-10 bg-ksrtc-red-dark overflow-hidden border-y-4 border-ksrtc-gold/50 py-3 select-none">
+        <div className="flex whitespace-nowrap ticker-scroll">
+          {[0, 1].map((dup) => (
+            <div key={dup} className="flex items-center shrink-0" aria-hidden={dup === 1}>
+              {[
+                "തിരുവനന്തപുരം", "Thiruvananthapuram", "കൊല്ലം", "Kollam", "കോട്ടയം", "Kottayam", "ആലപ്പുഴ", "Alappuzha",
+                "എറണാകുളം", "Ernakulam", "തൃശ്ശൂർ", "Thrissur", "പാലക്കാട്", "Palakkad", "കോഴിക്കോട്", "Kozhikode",
+                "വയനാട്", "Wayanad", "കണ്ണൂർ", "Kannur", "ഇടുക്കി", "Idukki", "കാസർഗോഡ്", "Kasargod",
+              ].map((name, i) => (
+                <span key={i} className="flex items-center gap-6 pr-6 text-ksrtc-cream/90 font-medium text-sm md:text-base">
+                  {name}
+                  <Bus className="w-4 h-4 text-ksrtc-gold shrink-0" />
+                </span>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
 
       {/* ═══════════════ HOW IT WORKS ═══════════════ */}
       <section id="explore" className="py-24 px-4 relative bg-gradient-to-b from-vintage-parchment to-white">
